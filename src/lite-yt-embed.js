@@ -177,10 +177,21 @@ class LiteYTEmbed extends HTMLElement {
         return params;
     }
 
+    //Replaces all other iframes back with lite yt embed
+    deleteOldIframe(){
+        const oldIframe = document.querySelector("iframe");
+        if (oldIframe == null) return;
+        oldIframe.parentElement.classList.remove('lyt-activated');
+        oldIframe.remove();
+        //console.log("Deleted!")
+    }
+    
     async activate(){
         if (this.classList.contains('lyt-activated')) return;
         this.classList.add('lyt-activated');
 
+        this.deleteOldIframe();
+        
         if (this.needsYTApi) {
             return this.addYTPlayerIframe(this.getParams());
         }
